@@ -28,7 +28,7 @@ Open thank-you.html?preview=1 to preview the post-purchase experience without re
 
 
 PRICING / LOCALIZATION
-- Base billing prices: USD 1.00 for 3 storyboard generations; USD 7.99/month for unlimited PupScene storyboard generations.
+- Current plans: Free (1/day), USD 1.00 Creator (5 generations / 30 days), USD 7.99 Unlimited (30 days). Paid plans support one-time access or monthly subscription.
 - index.html and payment.html load assets/pricing.js.
 - On Cloudflare Pages Functions, functions/api/localize.js uses request.cf.country to select the visitor currency and retrieves a USD FX rate.
 - If that endpoint is unavailable, the browser falls back to locale detection and a public FX lookup; if conversion fails, USD remains visible.
