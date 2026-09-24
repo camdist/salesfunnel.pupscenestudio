@@ -3,8 +3,8 @@
    Do not place secret API keys in this file. */
 window.PUPSCENE_CONFIG = {
   productName: 'PupScene Studio',
-  priceLabel: 'Launch price',
-  currency: 'PHP',
+  priceLabel: 'Localized estimate + USD base price',
+  baseCurrency: 'USD',
   demoUrl: 'https://demo.pupscenestudio.site',
   appUrl: 'https://www.pupscenestudio.site',
   supportEmail: 'support@pupscenestudio.site',
