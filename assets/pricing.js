@@ -1,7 +1,8 @@
 (() => {
   const PLANS = {
-    '3-storyboards': {usd: 1, label: '3 Storyboard Generations', cadence: 'one-time'},
-    'unlimited-monthly': {usd: 7.99, label: 'Unlimited Storyboard Generation', cadence: '/month'}
+    'free-daily': {usd: 0, label: 'Free — 1 Storyboard Daily', cadence: 'free'},
+    'five-monthly': {usd: 1, label: '5 Storyboard Generations', cadence: '/30 days'},
+    'unlimited-monthly': {usd: 7.99, label: 'Unlimited Storyboard Generation', cadence: '/30 days'}
   };
   const COUNTRY_CURRENCY = {
     PH:'PHP',US:'USD',CA:'CAD',GB:'GBP',AU:'AUD',NZ:'NZD',SG:'SGD',MY:'MYR',ID:'IDR',TH:'THB',VN:'VND',JP:'JPY',KR:'KRW',IN:'INR',AE:'AED',SA:'SAR',QA:'QAR',KW:'KWD',BH:'BHD',OM:'OMR',HK:'HKD',TW:'TWD',CN:'CNY',MX:'MXN',BR:'BRL',AR:'ARS',CL:'CLP',CO:'COP',PE:'PEN',ZA:'ZAR',NG:'NGN',KE:'KES',EG:'EGP',TR:'TRY',CH:'CHF',NO:'NOK',SE:'SEK',DK:'DKK',PL:'PLN',CZ:'CZK',HU:'HUF',RO:'RON',BG:'BGN',IS:'ISK',IL:'ILS',PK:'PKR',BD:'BDT',LK:'LKR',NP:'NPR'
@@ -62,18 +63,24 @@
     document.querySelectorAll('[data-plan-local]').forEach(el=>{
       const id=el.dataset.planLocal,p=PLANS[id]; if(!p)return;
       if(current.loading){el.textContent='Updating…';return;}
+      if(p.cadence==='free'){el.textContent='Free';return;}
       const converted=p.usd*current.rate;
-      el.textContent=fmt(converted,current.currency)+(p.cadence==='/month'?'/month':'');
+      el.textContent=fmt(converted,current.currency)+(p.cadence||'');
     });
     document.querySelectorAll('[data-plan-base]').forEach(el=>{
       const id=el.dataset.planBase,p=PLANS[id]; if(!p)return;
-      el.textContent=current.currency==='USD' ? 'Billing price' : `Base price: ${fmt(p.usd,'USD')}${p.cadence==='/month'?'/month':''}`;
+      if(p.cadence==='free'){el.textContent='No payment required';return;}
+      el.textContent=current.currency==='USD' ? 'USD base price' : `Base price: ${fmt(p.usd,'USD')}${p.cadence||''}`;
     });
     document.querySelectorAll('[data-local-currency]').forEach(el=>el.textContent=current.currency);
     document.querySelectorAll('[data-local-note]').forEach(el=>{
       if(current.loading){el.textContent=`Updating ${current.currency} exchange rate…`;return;}
       const stamp=current.updatedAt?new Date(current.updatedAt).toLocaleString(locale,{dateStyle:'medium',timeStyle:'short'}):'latest available rate';
       el.textContent=current.currency==='USD' ? 'Prices are shown in USD.' : `Live estimate in ${current.currency} using 1 USD = ${current.rate.toLocaleString(locale,{maximumFractionDigits:6})} ${current.currency}. Rate updated ${stamp}. Final charged amount is confirmed by the payment provider.`;
+    });
+    
+    document.querySelectorAll('[data-main-checkout]').forEach(a=>{
+      try{const u=new URL(a.getAttribute('href'),location.href);u.searchParams.set('currency',current.currency);a.setAttribute('href',u.toString())}catch(e){}
     });
     document.querySelectorAll('select[data-currency-select]').forEach(sel=>{if(!sel.options.length){supported.forEach(c=>sel.add(new Option(c,c))); sel.addEventListener('change',()=>setCurrency(sel.value));} sel.value=current.currency; sel.disabled=current.loading;});
     window.dispatchEvent(new CustomEvent('pupscene:pricing',{detail:{...current,plans:PLANS}}));

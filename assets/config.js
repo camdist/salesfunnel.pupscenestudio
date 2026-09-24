@@ -7,6 +7,7 @@ window.PUPSCENE_CONFIG = {
   baseCurrency: 'USD',
   demoUrl: 'https://demo.pupscenestudio.site',
   appUrl: 'https://www.pupscenestudio.site',
+  mainCheckoutUrl: 'https://www.pupscenestudio.site/checkout.html',
   supportEmail: 'support@pupscenestudio.site',
   checkout: {
     // Recommended: a Maya Business Checkout/Payment Link that supports your enabled e-wallets / QR Ph / cards.
