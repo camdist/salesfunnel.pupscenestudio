@@ -1,0 +1,15 @@
+PupScene Sales Funnel v3 — manual update
+
+If your funnel repo is already on v2, replace:
+- index.html
+
+Also upload for documentation:
+- README-v3.txt
+
+The existing assets/styles.css, assets/pricing.js and assets/config.js remain compatible and do not require changes.
+
+Important routing updates in v3:
+- Log In -> https://www.pupscenestudio.site/login.html
+- Free -> https://www.pupscenestudio.site/signup.html?next=index.html
+- Paid plans -> centralized main Checkout
+- Demo -> https://demo.pupscenestudio.site
